@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Amritesh 💘</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff6a88, #ff99ac);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, cursive;
+    overflow: hidden;
+  }
+
+  .container {
+    position: relative;
+    background: rgba(255,255,255,0.2);
+    padding: 40px;
+    border-radius: 25px;
+    text-align: center;
+    width: 90%;
+    max-width: 420px;
+    color: white;
+  }
+
+  h1 {
+    font-size: 34px;
+    margin-bottom: 10px;
+  }
+
+  #dialogue {
+    font-size: 22px;
+    min-height: 90px;
+    margin-bottom: 30px;
+  }
+
+  button {
+    padding: 14px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin: 10px;
+  }
+
+  #yes {
+    background: #2ecc71;
+    color: black;
+  }
+
+  #no {
+    background: #e74c3c;
+    color: white;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Amritesh 💖</h1>
+  <div id="dialogue">Will you be my Valentine? 🥺</div>
+
+  <button id="yes">YES ❤️</button>
+  <button id="no">NO 😈</button>
+</div>
+
+<canvas id="confetti"></canvas>
+
+<script>
+  const dialogueBox = document.getElementById("dialogue");
+  const noBtn = document.getElementById("no");
+  const yesBtn = document.getElementById("yes");
+
+  const dialogues = [
+    "Tumhe meri kasam hai 😭",
+    "Mere husband mujhko pyar nahi karte 💔",
+    "Inko pyaar karna aata hi nahi 😤",
+    "Tum already mere ho samjhe 😌",
+    "Gaand tod dungi saale teri 😡",
+    "YES dabao warna emotional atyachar hoga 😈",
+    "Itna bhaav khaane ka right sirf mujhe hai 😒"
+  ];
+
+  let i = 0;
+
+  noBtn.addEventListener("mouseenter", () => {
+    const x = Math.random() * (window.innerWidth - 150);
+    const y = Math.random() * (window.innerHeight - 150);
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    dialogueBox.innerText = dialogues[i];
+    i = (i + 1) % dialogues.length;
+  });
+
+  // CONFETTI
+  const canvas = document.getElementById("confetti");
+  const ctx = canvas.getContext("2d");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  let confetti = [];
+
+  yesBtn.addEventListener("click", () => {
+    dialogueBox.innerText =
+      "Good choice 😌💍\nAmritesh is officially Harshita ka Valentine ❤️";
+
+    confetti = [];
+    for (let i = 0; i < 250; i++) {
+      confetti.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 6 + 4,
+        d: Math.random() * 6 + 4,
+        c: `hsl(${Math.random() * 360},100%,50%)`
+      });
+    }
+    animate();
+  });
+
+  function animate() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    confetti.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.c;
+      ctx.fill();
+      p.y += p.d;
+      if (p.y > canvas.height) p.y = 0;
+    });
+    requestAnimationFrame(animate);
+  }
+</script>
+
+</body>
+</html>
